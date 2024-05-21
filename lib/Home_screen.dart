@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:whatsapp_ui/chat_list.dart';
+import 'package:whatsapp_ui/conversation.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -95,8 +97,127 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
             
           ),
+          ListView.builder(
+            itemCount: chats.length,
+            itemBuilder: (context,index){
+              ChatItem Chats = chats[index];
+              return ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: AssetImage(Chats.image),
+                ),
+                 title: Text(Chats.name, style: TextStyle(fontWeight: FontWeight.bold),),
+                    subtitle: Text(Chats.message),
+                    trailing: Text(Chats.time),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => ConversationScreen() ));
+                    },
+              );
+            }),
+            Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+               const Gap(15),
+                 Padding(
+                   padding:  EdgeInsets.symmetric(horizontal: 20),
+                   child: Row(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                 children: [
+                    Text('Status', style: TextStyle(fontSize: 20, ),),
+                        Icon(Icons.more_vert),
+                                  ],
+                                  ),
+                 ),
+                 ListTile(
+                  leading: CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/zia.jpg'),
+                    ),
+                    title: Text('My status', style: TextStyle(fontWeight: FontWeight.bold),),
+                    subtitle: Text('Tap to add status update'),
+                 ),
+                 const Gap(10),
+                     Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text('Recent updates',),
+                    
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: chats.length,
+                      itemBuilder: (context,index){
+                        ChatItem Chats = chats[index];
+                        return ListTile(
+                           leading: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.teal,
+                                width: 2,
+                              
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                    
+                            ),
+                            child: CircleAvatar(
+                                backgroundImage: AssetImage(Chats.image),
+                              
+                            ),
+                            
+                            
+                           ),
+                                              
+                                   title: Text(Chats.name, style: TextStyle(fontWeight: FontWeight.bold),),
+                                   subtitle: Text(Chats.time),
+                            );
+                      }),
+                  )
+              ],
+            ),
+            Column(
+                   crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                  const Gap(10),
+  ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.teal,
+                          child: Icon(Icons.link, 
+                          color: Colors.white,),
+                        ),
+                        title: Text('Create call link'),
+                        subtitle: Text('Share a link for your WhatsApp call'),
+                      ),
+                       Padding(
+                        padding: const EdgeInsets.only(left: 20, top: 10),
+                        child: Text('Recent', style: TextStyle(fontWeight: FontWeight.bold),),
+                      ),
+                            Expanded(
+                  child: ListView.builder(
+                    itemCount: chats.length,
+                    itemBuilder: (context, index){
+                      ChatItem chat = chats[index];
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: AssetImage(chat.image),
+                        ),
+                        title: Text(chat.name),
+                        subtitle: Text('13 January, '+chat.time),
+                        trailing: Icon(Icons.phone,
+                        color: Colors.teal,),
+                      );
+                  }),
+                ),
+              ],
+            )
         ]),
+        floatingActionButton: FloatingActionButton(onPressed: (){},
+         foregroundColor: Colors.white,
+            backgroundColor: Colors.teal,
+        child: Icon(Icons.chat),
+        
+        ),
       ),
+      
     );
   }
 }
